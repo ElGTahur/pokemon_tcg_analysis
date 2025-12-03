@@ -26,17 +26,14 @@ st.title("Dragon Pokémon TCG Analytics Dashboard")
 st.markdown("---")
 
 # Conexión a la base de datos
-@st.cache_resource
 def get_db_connection():
-    """Establece conexión a la base de datos SQLite"""
+    """Abre una conexión nueva a la BD cada vez."""
     db_path = "pokemon_cards.db"
     if Path(db_path).exists():
         return sqlite3.connect(db_path)
     else:
         st.error(f"Base de datos no encontrada: {db_path}")
-        st.info("Por favor ejecute el pipeline ETL primero: `python scripts/main_etl.py`")
         return None
-
 # Cargar datos desde la base de datos
 @st.cache_data(ttl=3600)  # Cache por 1 hora
 def load_data():

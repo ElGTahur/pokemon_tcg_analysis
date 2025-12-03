@@ -17,35 +17,37 @@ logger = logging.getLogger(__name__)
 
 def create_database_schema(db_path: str = "pokemon_cards.db") -> None:
     """
-    Crea el esquema de la base de datos
+    Crea el esquema de la base de datos SQLite
     
     Args:
         db_path: Ruta a la base de datos SQLite
     """
     try:
-        # Crear conexión
+        # Ruta segura del schema.sql
+        base_dir = Path(__file__).resolve().parent.parent  # raíz del proyecto
+        schema_path = base_dir / "database" / "schema.sql"
+
+        if not schema_path.exists():
+            logger.error(f"Archivo schema.sql no encontrado en: {schema_path}")
+            raise FileNotFoundError(f"schema.sql no encontrado en {schema_path}")
+
+        # Leer schema.sql
+        with open(schema_path, 'r', encoding='utf-8') as f:
+            schema_sql = f.read()
+
+        # Conectar a la base de datos y ejecutar schema
         conn = sqlite3.connect(db_path)
         cursor = conn.cursor()
-        
-        # Leer schema.sql
-        schema_path = Path("../database/schema.sql")
-        if schema_path.exists():
-            with open(schema_path, 'r', encoding='utf-8') as f:
-                schema_sql = f.read()
-            
-            # Ejecutar sentencias SQL
-            cursor.executescript(schema_sql)
-            conn.commit()
-            logger.info(f"Esquema de base de datos creado en: {db_path}")
-        else:
-            logger.error(f"Archivo schema.sql no encontrado en: {schema_path}")
-            raise FileNotFoundError(f"schema.sql no encontrado")
-            
+        cursor.executescript(schema_sql)
+        conn.commit()
         conn.close()
-        
+
+        logger.info(f"Esquema de base de datos creado en: {db_path}")
+
     except Exception as e:
         logger.error(f"Error al crear esquema de base de datos: {str(e)}")
         raise
+
 
 def load_expansions(df: pd.DataFrame, db_path: str = "pokemon_cards.db") -> dict:
     """

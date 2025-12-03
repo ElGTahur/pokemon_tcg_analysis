@@ -16,7 +16,7 @@ logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
     handlers=[
-        logging.FileHandler('etl_pipeline.log'),
+        logging.FileHandler('logs/etl_pipeline.log'),
         logging.StreamHandler(sys.stdout)
     ]
 )
@@ -116,7 +116,7 @@ def main():
             print("\n✓ Pipeline completado exitosamente!")
             print(f"   Duración: {results['duration']}")
             print(f"   Cartas procesadas: {results['results']['cards_loaded']}")
-            print(f"   Base de datos creada: pokemon_cards.db")
+            print("   Base de datos creada: pokemon_cards.db")
         else:
             print("\n✗ Error en el pipeline")
             print(f"   Error: {results['error']}")

@@ -11,7 +11,7 @@ from pathlib import Path
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
 
-def extract_data(file_path: str = "../data/raw/pokemon_cards.csv") -> pd.DataFrame:
+def extract_data(file_path: str = "C:\\Users\\Gael Pérez Cruz\\Desktop\\pokemon_tcg_analysis\\data\\raw\\pokemon_cards.csv") -> pd.DataFrame:
     """
     Extrae los datos del archivo CSV
     

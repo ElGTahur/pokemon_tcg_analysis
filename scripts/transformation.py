@@ -8,6 +8,7 @@ import numpy as np
 import logging
 from typing import Tuple
 import re
+from pathlib import Path
 
 # Configuración de logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
