@@ -1,262 +1,182 @@
-#  Pokémon TCG Analytics - Proyecto ETL con Dashboard
+Pokémon TCG Analytics — Proyecto ETL + Dashboard
 
-![Python](https://img.shields.io/badge/Python-3.8%2B-blue)
-![Streamlit](https://img.shields.io/badge/Streamlit-1.28%2B-red)
-![SQLite](https://img.shields.io/badge/SQLite-3.0%2B-green)
-![Pandas](https://img.shields.io/badge/Pandas-1.5%2B-orange)
+Este proyecto realiza análisis completo de cartas del juego Pokémon TCG, desde la extracción y transformación de datos, hasta la creación de una base de datos y un dashboard interactivo construido con Streamlit.
 
-Un pipeline ETL completo para análisis de cartas de Pokémon TCG, con dashboard interactivo en Streamlit.
+Permite explorar:
 
-## Contenido
+Precios históricos y actuales de cartas
 
-- [Descripción del Proyecto](#-descripción-del-proyecto)
-- [Características](#-características)
-- [Estructura del Proyecto](#-estructura-del-proyecto)
-- [Instalación](#-instalación)
-- [Uso](#-uso)
-- [Pipeline ETL](#-pipeline-etl)
-- [Dashboard](#-dashboard)
-- [Base de Datos](#-base-de-datos)
-- [Ejemplos de Consultas](#-ejemplos-de-consultas)
-- [Capturas de Pantalla](#-capturas-de-pantalla)
-- [Tecnologías Utilizadas](#-tecnologías-utilizadas)
-- [Contribución](#-contribución)
-- [Licencia](#-licencia)
+Rarezas
 
-##  Descripción del Proyecto
+Expansiones
 
-Este proyecto implementa un pipeline ETL (Extracción, Transformación y Carga) completo para analizar el valor de cartas de Pokémon TCG. El sistema procesa datos de más de 2,500 cartas, las carga en una base de datos SQLite y proporciona un dashboard interactivo para visualización y análisis.
+Generaciones
 
-**Caso de uso:** Coleccionistas e inversores de cartas Pokémon pueden usar este dashboard para:
-- Analizar tendencias de precios
-- Identificar cartas de mayor valor
-- Comparar diferentes versiones
-- Tomar decisiones informadas sobre compras/ventas
+Estadísticas avanzadas
 
-##  Características
+Distribuciones y visualizaciones dinámicas
 
-### Pipeline ETL
--  Extracción automática de datos CSV
--  Limpieza y transformación de datos
--  Carga a base de datos SQLite
--  Validación y logging completo
--  Manejo de errores robusto
+Todo alimentado desde una base de datos SQLite generada automáticamente por un pipeline ETL.
 
-### Dashboard
--  4 visualizaciones interactivas
--  6 filtros diferentes
--  Métricas en tiempo real
--  Exportación de datos
--  Análisis estadístico avanzado
+1. Descripción del Proyecto
 
-### Base de Datos
--  Esquema normalizado
--  Índices optimizados
--  Vistas precalculadas
--  Triggers para integridad
--  Metadatos de ejecución
+El proyecto sigue la arquitectura clásica ETL (Extract, Transform, Load):
 
-##  Estructura del Proyecto
+✔ EXTRACT
 
-pokemon_tcg_analysis/
-│
-├── data/
-│ ├── raw/ # Datos crudos
-│ │ └── pokemon_cards.csv
-│ └── processed/ # Datos transformados
-│ └── pokemon_cards_clean.csv
-│
-├── scripts/ # Pipeline ETL
-│ ├── extraction.py
-│ ├── transformation.py
-│ ├── load.py
-│ └── main_etl.py
-│
-├── database/ # Esquema BD
-│ └── schema.sql
-│
-├── dashboard/ # Dashboard Streamlit
-│ └── app.py
-│
-├── requirements.txt # Dependencias
-├── pokemon_cards.db # Base de datos (generada)
-└── README.me
+Se extraen datos desde un archivo CSV de cartas de Pokémon TCG.
 
+✔ TRANSFORM
 
-## Instalación
+Se limpian, corrigen, enriquecen y transforman los datos:
 
-### 1. Clonar el repositorio
-```bash
-git clone <repo-url>
-cd pokemon_tcg_analysis
+Normalización de tipos de carta
 
-2. Crear entorno virtual (opcional pero recomendado)
-bash
+Extracción de generación
 
-python -m venv venv
-source venv/bin/activate  # En Windows: venv\Scripts\activate
+Limpieza y conversión de precios
 
-3. Instalar dependencias
-bash
+Identificación de rareza y score de rareza
+
+Detección y eliminación de duplicados
+
+✔ LOAD
+
+Los datos procesados se cargan a una base de datos SQLite, con las siguientes tablas:
+
+cards
+
+expansions
+
+vw_card_details (vista)
+
+vw_statistics (vista)
+
+vw_prices_by_generation
+
+vw_rarity_distribution
+
+✔ Dashboard
+
+Un dashboard interactivo permite:
+
+Filtrar por precio, tipo, rareza, generación, Pokémon y expansión
+
+Ver estadísticas generales
+
+Visualizar distribuciones, rankings y gráficos
+
+Exportar datos filtrados
+
+2. Instalación de Dependencias
+Requisitos:
+
+Python 3.10+
+
+pip
+
+Instalación:
+
+En la carpeta raíz del proyecto:
 
 pip install -r requirements.txt
 
-Uso
-Ejecutar el pipeline ETL completo
-bash
+
+Si no tienes el archivo, aquí las dependencias principales:
+
+pandas
+numpy
+streamlit
+plotly
+matplotlib
+sqlite3-binary
+
+3. Configuración de la Base de Datos
+
+El pipeline ETL crea automáticamente la base de datos:
+
+pokemon_cards.db
+
+
+Ubicación esperada:
+
+/pokemon_tcg_analysis/pokemon_cards.db
+
+
+Si no existe, el dashboard mostrará:
+
+Base de datos no encontrada. Ejecute el pipeline ETL.
+
+4. Ejecutar el Pipeline ETL
+
+Desde la raíz del proyecto:
 
 python scripts/main_etl.py
 
-Esto ejecutará:
 
-    Extracción: Lee el archivo CSV original
+El pipeline hará:
 
-    Transformación: Limpia y procesa los datos
+Leer el CSV crudo en data/raw/
 
-    Carga: Crea la base de datos SQLite e inserta los datos
+Transformar los datos
 
-Ejecutar el dashboard
-bash
+Guardar datos procesados en data/processed/
+
+Construir la base de datos SQLite
+
+Crear tablas y vistas
+
+Insertar más de 25 000 registros
+
+Si todo sale bien verás:
+
+✓ Pipeline completado exitosamente
+Base de datos creada: pokemon_cards.db
+
+ 5. Ejecutar el Dashboard
+
+Desde la carpeta raíz del proyecto:
 
 streamlit run dashboard/app.py
 
-El dashboard se abrirá automáticamente en tu navegador (usualmente en http://localhost:8501).
-Pipeline ETL
-Paso 1: Extracción
-python
 
-# Lee el archivo CSV con encoding UTF-8
-# Maneja el símbolo de libra 'Ł'
-# Valida la estructura del archivo
+Luego se abrirá en tu navegador:
 
-Paso 2: Transformación
+http://localhost:8501
 
-    Limpia nombres de Pokémon y expansiones
 
-    Normaliza tipos de carta
+El dashboard cargará los datos desde pokemon_cards.db.
 
-    Calcula niveles de rareza
+6. Estructura del Proyecto
+pokemon_tcg_analysis/
+│
+├── data/
+│   ├── raw/
+│   │   └── pokemon_cards.csv
+│   ├── processed/
+│   │   └── pokemon_cards_clean.csv
+│
+├── scripts/
+│   ├── extraction.py
+│   ├── transformation.py
+│   ├── load.py
+│   └── main_etl.py
+│
+├── database/
+│   └── schema.sql
+│
+├── dashboard/
+│   └── app.py
+│
+├── pokemon_cards.db
+├── requirements.txt
+└── README.md
 
-    Extrae información de números de carta
+ 7. Comandos Útiles
+Verificar archivos modificados:
+git status
 
-    Maneja valores nulos y duplicados
-
-Paso 3: Carga
-
-    Crea base de datos SQLite
-
-    Inserta datos en tablas normalizadas
-
-    Crea índices y vistas
-
-    Valida la integridad de los datos
-
-Dashboard
-Filtros disponibles:
-
-     Rango de precios - Deslizador para filtrar por precio
-
-     Tipo de carta - Selector múltiple (Standard, Reverse Holo, etc.)
-
-     Generación - Dropdown con diferentes generaciones
-
-     Nivel de rareza - Selector múltiple (Common, Rare, etc.)
-
-     Expansión - Dropdown para filtrar por expansión específica
-
-     Buscar Pokémon - Búsqueda por nombre
-
-Visualizaciones:
-
-    Distribución de precios - Histograma interactivo
-
-     Top Pokémon más caros - Gráfico de barras horizontal
-
-     Precios por tipo - Box plot comparativo
-
-     Análisis por generación - Gráficos de barras y pie
-
-Funcionalidades adicionales:
-
-     Descarga de datos filtrados en CSV
-
-     Análisis de correlación precio-raridad
-
-     Estadísticas descriptivas
-
-     Actualización en tiempo real
-
- Base de Datos
-Esquema principal:
-sql
-
-expansions (expansion_id, name, generation)
-cards (card_id, expansion_id, pokemon_name, card_type, price, rarity_level, ...)
-
-Vistas precalculadas:
-
-    vw_card_details - Detalles completos de cartas
-
-    vw_statistics - Estadísticas generales
-
-    vw_prices_by_generation - Análisis por generación
-
-    vw_rarity_distribution - Distribución de rareza
-
- Ejemplos de Consultas
-Top 10 Pokémon más caros:
-sql
-
-SELECT pokemon_name, price, rarity_level, expansion_name
-FROM vw_card_details
-ORDER BY price DESC
-LIMIT 10;
-
-Precio promedio por generación:
-sql
-
-SELECT generation, AVG(price) as avg_price, COUNT(*) as card_count
-FROM vw_card_details
-GROUP BY generation
-ORDER BY avg_price DESC;
-
-Distribución de rareza:
-sql
-
-SELECT rarity_level, COUNT(*) as count,
-       ROUND(COUNT(*) * 100.0 / (SELECT COUNT(*) FROM cards), 2) as percentage
-FROM cards
-GROUP BY rarity_level
-ORDER BY count DESC;
-
- Tecnologías Utilizadas
-
-    Python 3.8+ - Lenguaje principal
-
-    Pandas - Procesamiento y análisis de datos
-
-    Streamlit - Framework para dashboard web
-
-    SQLite - Base de datos ligera
-
-    Plotly - Visualizaciones interactivas
-
-    SQLAlchemy - ORM para base de datos
-
-    Matplotlib - Gráficos adicionales
-
- Contribución
-
-    Fork el repositorio
-
-    Crea una rama para tu feature (git checkout -b feature/AmazingFeature)
-
-    Commit tus cambios (git commit -m 'Add some AmazingFeature')
-
-    Push a la rama (git push origin feature/AmazingFeature)
-
-    Abre un Pull Request
-
-Licencia
-
-Este proyecto es para fines educativos y de demostración. Los datos de Pokémon son propiedad de The Pokémon Company.
+Subir cambios al repositorio:
+git add .
+git commit -m "Update ETL and dashboard"
+git push
