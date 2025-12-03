@@ -56,7 +56,7 @@ vw_prices_by_generation
 
 vw_rarity_distribution
 
-✔ Dashboard
+ Dashboard
 
 Un dashboard interactivo permite:
 
@@ -130,7 +130,7 @@ Insertar más de 25 000 registros
 
 Si todo sale bien verás:
 
-✓ Pipeline completado exitosamente
+Pipeline completado exitosamente
 Base de datos creada: pokemon_cards.db
 
  5. Ejecutar el Dashboard
