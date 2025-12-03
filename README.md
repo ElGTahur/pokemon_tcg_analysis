@@ -22,11 +22,11 @@ Todo alimentado desde una base de datos SQLite generada automáticamente por un 
 
 El proyecto sigue la arquitectura clásica ETL (Extract, Transform, Load):
 
-✔ EXTRACT
+EXTRACT
 
 Se extraen datos desde un archivo CSV de cartas de Pokémon TCG.
 
-✔ TRANSFORM
+TRANSFORM
 
 Se limpian, corrigen, enriquecen y transforman los datos:
 
@@ -40,7 +40,7 @@ Identificación de rareza y score de rareza
 
 Detección y eliminación de duplicados
 
-✔ LOAD
+LOAD
 
 Los datos procesados se cargan a una base de datos SQLite, con las siguientes tablas:
 
